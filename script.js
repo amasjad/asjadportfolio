@@ -8,7 +8,38 @@ document.addEventListener('DOMContentLoaded', () => {
   initTypewriter();
   initActiveNavLink();
   initBackToTop();
+  initDynamicExperience();
 });
+
+/* ---------------- Dynamic Work Experience Counter ---------------- */
+function initDynamicExperience() {
+  // Started at BayCop Technologies in July 2026 (Month is 0-indexed: 6 = July)
+  const startYear = 2026;
+  const startMonth = 6; 
+  const now = new Date();
+
+  // Calculate elapsed months dynamically
+  let months = (now.getFullYear() - startYear) * 12 + (now.getMonth() - startMonth);
+  if (months < 1) months = 3; // safe fallback
+
+  let formattedDuration = '';
+  if (months < 12) {
+    formattedDuration = `${months} ${months === 1 ? 'month' : 'months'}`;
+  } else {
+    const years = Math.floor(months / 12);
+    const remMonths = months % 12;
+    if (remMonths === 0) {
+      formattedDuration = `${years} ${years === 1 ? 'year' : 'years'}`;
+    } else {
+      formattedDuration = `${years} ${years === 1 ? 'yr' : 'yrs'} ${remMonths} ${remMonths === 1 ? 'mo' : 'mos'}`;
+    }
+  }
+
+  // Update all elements with the class 'exp-duration-text'
+  document.querySelectorAll('.exp-duration-text').forEach(el => {
+    el.textContent = formattedDuration;
+  });
+}
 
 /* ---------------- Theme Toggle (Dark / Light) ---------------- */
 function initThemeToggle() {
